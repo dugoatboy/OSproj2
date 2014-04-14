@@ -11,6 +11,7 @@ public class Elf implements Runnable {
 	 * The number associated with the Elf
 	 */
 	private int number;
+    private boolean notfiedTrouble;
 	private Random rand = new Random();
 	private SantaScenario scenario;
 
@@ -37,7 +38,7 @@ public class Elf implements Runnable {
 
 	@Override
 	public void run() {
-
+        notfiedTrouble = false;
 
         while (true) {
             // wait a day
@@ -54,18 +55,21 @@ public class Elf implements Runnable {
                 case WORKING: {
                     // at each day, there is a 1% chance that an elf runs into
                     // trouble.
-                    if (rand.nextDouble() < 0.01) {
+                    if (rand.nextDouble() < 0.10) {
                         state = ElfState.TROUBLE;
                     }
                     break;
                 }
                 case TROUBLE:{
-                    state = ElfState.AT_SANTAS_DOOR;
-                    scenario.santasDoor.add(this);
+                    if(!notfiedTrouble) {
+                        this.scenario.inTrouble.add(this);
+                        notfiedTrouble = true;
+                    }
                     break;
                 }
                 case AT_SANTAS_DOOR:{
-                    scenario.santa.wakeSanta(0);
+                    notfiedTrouble = false;
+                    this.scenario.santa.wakeSanta(0);
                     break;
                 }
             }
@@ -79,5 +83,6 @@ public class Elf implements Runnable {
 	public void report() {
 		System.out.println("Elf " + number + " : " + state);
 	}
+
 
 }

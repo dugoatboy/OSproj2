@@ -13,11 +13,14 @@ public class Santa implements Runnable {
 	}
 	
 	public void wakeSanta(int cause) {
+      if (this.state == SantaState.SLEEPING){
+
         if (cause == 1) {
             this.state = SantaState.WOKEN_UP_BY_REINDEER;
         } else {
             this.state = SantaState.WOKEN_UP_BY_ELVES;
         }
+      }
     }
 
 	@Override

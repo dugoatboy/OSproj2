@@ -6,23 +6,36 @@ public class Santa implements Runnable {
 	enum SantaState {SLEEPING, READY_FOR_CHRISTMAS, WOKEN_UP_BY_ELVES, WOKEN_UP_BY_REINDEER,TERMINATED};
 	private SantaState state;
     private SantaScenario s;
-	
+	private boolean elfesatdoor;
+
+    public void setElfesAtDoor(boolean state){
+        this.elfesatdoor = true;
+    }
+
+    public boolean getElfesAtDoor(){
+        return this.elfesatdoor;
+    }
+
 	public Santa(SantaScenario scenario) {
 		this.state = SantaState.SLEEPING;
         this.s = scenario;
 	}
 	
 	public void wakeSanta(int cause) {
-        if (cause == 1) {
-            this.state = SantaState.WOKEN_UP_BY_REINDEER;
-        } else {
-            this.state = SantaState.WOKEN_UP_BY_ELVES;
+        if(this.state == SantaState.SLEEPING) {
+            if (cause == 1) {
+                this.state = SantaState.WOKEN_UP_BY_REINDEER;
+            } else {
+                this.state = SantaState.WOKEN_UP_BY_ELVES;
+            }
         }
     }
 
 	@Override
 	public void run() {
-		while(true) {
+        setElfesAtDoor(false);
+
+        while(true) {
 			// wait a day...
 			try {
 				Thread.sleep(100);

@@ -10,12 +10,15 @@ public class SantaScenario {
 	public List<Elf> elves;
 	//public List<Reindeer> reindeers;
     public Queue<Elf> santasDoor;
+    public Queue<Elf> inTrouble;
     public List<Thread> elvesTh;
     //public List<Thread> reindeersTh;
     public Thread SantaTh;
 	public boolean isDecember;
     public boolean isDone;
-	
+
+
+
 	public static void main(String args[]) {
 		SantaScenario scenario = new SantaScenario();
 		scenario.isDecember = false;
@@ -47,6 +50,7 @@ public class SantaScenario {
             scenario.reindeersTh.get(i).start();
 		}*/
         scenario.santasDoor = new LinkedList<>();
+        scenario.inTrouble = new LinkedList<>();
 		// now, start the passing of time
 		for(int day = 0; day < 500; day++) {
 			// wait a day
@@ -56,7 +60,9 @@ public class SantaScenario {
 
 				e.printStackTrace();
 			}
-			// turn on December
+
+
+		    // turn on December
 			if (day > (365 - 31)) {
 				scenario.isDecember = true;
 			}
@@ -78,15 +84,29 @@ public class SantaScenario {
             scenario.santa.report();
 			for(Elf elf: scenario.elves) {
 				elf.report();
-
-
 			}
+            if(scenario.inTrouble.size() > 2) {
+                //System.out.print("I got here");
+                if (scenario.santasDoor.isEmpty()){
+                    //System.out.print("Hello World");
+                    int size = scenario.inTrouble.size();
+                    for (int i = 0; i < size; i++) {
+                        Elf a = scenario.inTrouble.remove();
+                        a.setState(Elf.ElfState.AT_SANTAS_DOOR);
+                        scenario.santasDoor.add(a);
+
+                    }
+                }
+
+
+            }
 			/*for(Reindeer reindeer: scenario.reindeers) {
 				reindeer.report();
 			}*/
 		}
 	}
-	
+
+
 	
 	
 }

@@ -55,7 +55,7 @@ public class Elf implements Runnable {
                     // TROUBLE.
                     try {
 
-                        if (rand.nextDouble() < 0.10) {
+                        if (rand.nextDouble() < 0.01) {
                             this.scenario.trouble.acquire();
                             state = ElfState.TROUBLE;
                             this.scenario.inTrouble.add(this);

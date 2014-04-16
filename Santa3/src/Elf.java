@@ -55,7 +55,7 @@ public class Elf implements Runnable {
                 case WORKING: {
                     // at each day, there is a 1% chance that an elf runs into
                     // trouble.
-                    if (rand.nextDouble() < 0.10) {
+                    if (rand.nextDouble() < 0.01) {
                         state = ElfState.TROUBLE;
                     }
                     break;

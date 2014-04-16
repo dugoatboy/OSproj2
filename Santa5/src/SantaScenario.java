@@ -9,19 +9,24 @@ public class SantaScenario {
 
 	public Santa santa;
 	public List<Elf> elves;
-	//public List<Reindeer> reindeers;
+	public List<Reindeer> reindeers;
     public Queue<Elf> santasDoor;
     public Queue<Elf> inTrouble;
     public List<Thread> elvesTh;
-    //public List<Thread> reindeersTh;
+    public List<Thread> reindeersTh;
     public Thread SantaTh;
+    public int readyReideer;
 	public boolean isDecember;
     public boolean isDone;
+
     public final Semaphore trouble =  new Semaphore(1,true);
+    public final Semaphore reindeer =  new Semaphore(0,true);
     public final Semaphore door =  new Semaphore(1,true);
     public final Semaphore waitTrouble =  new Semaphore(0,true);
 
+
 	public static void main(String args[]) {
+
 		SantaScenario scenario = new SantaScenario();
 		scenario.isDecember = false;
 		// create the participants
@@ -41,7 +46,7 @@ public class SantaScenario {
             scenario.elvesTh.add(th);
             scenario.elvesTh.get(i).start();
 		}
-		/*/ The reindeer: in this case: 9
+		// The reindeer: in this case: 9
 		scenario.reindeers = new ArrayList<>();
         scenario.reindeersTh = new ArrayList<>();
 		for(int i=0; i != 9; i++) {
@@ -50,9 +55,11 @@ public class SantaScenario {
 			th = new Thread(reindeer);
             scenario.reindeersTh.add(th);
             scenario.reindeersTh.get(i).start();
-		}*/
+		}
+        scenario.readyReideer = 0;
         scenario.santasDoor = new LinkedList<>();
         scenario.inTrouble = new LinkedList<>();
+
 		// now, start the passing of time
 		for(int day = 0; day < 500; day++) {
 			// wait a day
@@ -75,13 +82,13 @@ public class SantaScenario {
                     for (Thread t: scenario.elvesTh){
                         t.interrupt();
                     }
-                    /*for (Thread t: scenario.reindeersTh){
+                    for (Thread t: scenario.reindeersTh){
                         t.interrupt();
-                    }*/
+                    }
                 }
             }
 			// print out the state:
-			System.out.println("***********  Day " + day + " *************************");
+			System.out.println("***********  Day " + day + " *************************_");
 
             scenario.santa.report();
 			for(Elf elf: scenario.elves) {
@@ -117,9 +124,9 @@ public class SantaScenario {
                 return;
             }
 
-			/*for(Reindeer reindeer: scenario.reindeers) {
+			for(Reindeer reindeer: scenario.reindeers) {
 				reindeer.report();
-			}*/
+			}
 		}
 	}
 
